@@ -96,7 +96,22 @@ async function handleLogin(req, res) {
         message: "Something went wrong",
       });
     }
-  }
+}
+
+async function handleAccDelete(req,res){
+
+    const { email , password } = req.body;
+
+    try {
+
+      const 
+      const isExist = await UserModel.findOne({email: })
+      
+    } catch (error) {
+      
+    }
+ 
+}
   
   
 
