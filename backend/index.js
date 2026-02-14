@@ -4,6 +4,7 @@ import dotenv from "dotenv"
 import mongoose from "mongoose"
 import UserRouter from "./routes/UserRoute.js"
 import DatabaseConnect from "./DatabaseConnect.js"
+import ComputeCosineSimilarity from "./controllers/Score.js"
 
 dotenv.config()
 
@@ -20,6 +21,10 @@ DatabaseConnect('mongodb://127.0.0.1:27017/AutoRecruit')
 
 app.use("/" , UserRouter );
 
-server.listen( PORT , () => {
+
+server.listen( PORT , async () => {
     console.log(`BACKEND Server started at : ${PORT}`)
+
+    //const score = await ComputeCosineSimilarity(resumeTxt , jdTxt )
+    
 })
