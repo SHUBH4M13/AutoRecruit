@@ -67,7 +67,7 @@ async function handleLogin(req, res) {
 
     if (isPasswordValid) {
       const token = Jwt.sign(
-        { email: isExist.email , userId: isExist._id },
+        { email: isExist.email, userId: isExist._id },
         process.env.JWT_SECRET_KEY,
         {
           expiresIn: process.env.JWT_EXPIRES_IN,
@@ -137,5 +137,51 @@ async function handleLogin(req, res) {
 //     });
 //   }
 } */
+// handleChangePassword = Forget password implementation
 
-export { handleSignup, handleLogin };
+async function handleChangePassword(req, res) {
+  const { password , new_password } = req.body;
+
+  try {
+    const UserID = req.user.userId;
+
+    const isExist = await UserModel.findById({ UserID });
+
+    if (!isExist) {
+      return res.status(404).json({
+        success: false,
+        message: "User not found",
+      });
+    }
+
+    const isCompare = bcrypt.compare(password, isExist);
+
+    if (!isCompare) {
+      return res.status(400).json({
+        success: false,
+        message: "Incorrect Password",
+      });
+  }
+
+  await UserModel.findByIdAndUpdate(UserID , {
+    password: new_password
+  })
+
+  return res.status(200).json({
+    success: true,
+    message: "Password Changed Successfully",
+  });
+
+
+  } catch (error) {
+    console.error("Failed to Change Password:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Something went wrong",
+    });
+  }
+}
+
+
+
+export { handleSignup, handleLogin , handleChangePassword };
