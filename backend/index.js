@@ -6,6 +6,7 @@ import DatabaseConnect from "./DatabaseConnect.js"
 
 //import getEmbeddings from "./controllers/OpenAIEmbeddings.js"
 import ComputeCosineSimilarity from "./controllers/Score.js"
+import { Embeddings } from "openai/resources/embeddings.js"
 
 dotenv.config()
 
@@ -111,10 +112,12 @@ Bachelor’s or master’s degree in engineering or technology or related field.
 
 server.listen( PORT , async () => {
     console.log(`BACKEND Server started at : ${PORT}`)
+
+    // OPENAI Embeddings
     // const ResumeVec = getEmbeddings(resumeTxt)
     // const jdVec = getEmbeddings(jdtxt)
 
-    const score = await ComputeCosineSimilarity(resumeTxt , jdtxt )
-    console.log(score)
+    //const score = await ComputeCosineSimilarity(resumeTxt , jdtxt )
+    //console.log(score)
     
 })

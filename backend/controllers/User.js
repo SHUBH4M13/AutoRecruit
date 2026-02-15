@@ -182,6 +182,4 @@ async function handleChangePassword(req, res) {
   }
 }
 
-
-
 export { handleSignup, handleLogin , handleChangePassword };
