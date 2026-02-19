@@ -9,7 +9,7 @@ async function loadModel() {
   return extractor;
 }
 
-async function getEmbeddings(text) {
+async function getEmbeddingss(text) {
   const model = await loadModel();
 
   const output = await model(text, {
@@ -20,4 +20,4 @@ async function getEmbeddings(text) {
   return Array.from(output.data);
 }
 
-export default getEmbeddings
+export default getEmbeddingss

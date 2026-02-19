@@ -9,3 +9,4 @@ const client = new openai({
 })
 
 export default client
+
