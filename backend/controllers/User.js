@@ -2,7 +2,10 @@ import UserModel from "../models/UserModel.js";
 import bcrypt from "bcrypt";
 import axios from "axios";
 import pdf from "pdf-parse";
+import dotenv from "dotenv"
 import client from "../Config/GenAi.js";
+
+dotenv.config();
 
 /*, TODOs: 1. handleAccDelete broken 
  async function handleAccDelete(req, res) {
@@ -185,4 +188,34 @@ async function handleGetAISuggestion(req, res) {
   }
 }
 
-export { handleGetUserResume, handleChangePassword , handleGetAISuggestion};
+async function handlen8ncall(req,res){
+
+  const { keyword , location , experienceLevel , remote } = req.body;
+
+  try {
+
+    const response = await axios.get(process.env.N8N_URL,{
+      params:{
+        keyword,
+        location,
+        experienceLevel,
+        remote
+      }
+    })
+
+    return res.status(200).json({
+      success: true,
+      message: "Apply links:",
+      response
+    })
+    
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({
+      success: false,
+      message: "Please try again later"
+    })
+  }
+}
+
+export { handleGetUserResume, handleChangePassword , handleGetAISuggestion , handlen8ncall};
