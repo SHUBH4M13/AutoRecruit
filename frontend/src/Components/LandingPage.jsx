@@ -1,28 +1,41 @@
 import React from 'react'
-import { Sparkles } from 'lucide-react'
+import PrimaryButton from "./PrimaryButton"
+import SecodaryButton from './SecodaryButton'
 
 export default function LandingPage() {
     return (
-        <div className='text-center flex flex-col justify-center items-center gap-6'>
+        <div className='relative overflow-hidden text-center flex flex-col justify-center items-center gap-7 min-h-screen bg-bg'>
 
-            <div className='flex gap-5 bg-black justify-center items-center h-[42px] w-78 rounded-3xl '>
+            <div className='absolute rounded-full border border-accent/6 w-[360px] h-[360px] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none' />
+            <div className='absolute rounded-full border border-accent/6 w-[540px] h-[540px] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none' />
+            <div className='absolute rounded-full border border-accent/6 w-[720px] h-[720px] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none' />
 
-                <Sparkles color='white'/>
-
-                <div className='text-white text-center '>
-                    <p>AI-Powered Career Platform</p>
-                </div>
-
+            <div className='relative z-10 flex gap-2 bg-bg-secondary border border-border justify-center items-center h-[38px] px-5 rounded-3xl'>
+                <span className='w-1.75 h-1.75 rounded-full bg-accent' />
+                <p className='text-sm font-medium text-text-highlight tracking-wide'>
+                    AI-Powered Career Platform
+                </p>
             </div>
 
-            <div className=''>
-                <p className=' text-6xl font-bold text-black '>AI-Powered Resume Analysis</p>
-                <p className=' text-6xl font-bold text-secondaryaccent '>& Job Matching</p>
+            <div className='relative z-10'>
+                <p className='text-6xl font-bold text-text-primary tracking-tight'>
+                    AI-Powered Resume Analysis
+                </p>
+                <p className='text-6xl font-bold tracking-tight text-accent'>
+                    & Job Matching
+                </p>
             </div>
 
-            <div className=' text-mutedtext'>
-                <p>Transform your job search with intelligent resume analysis and personalized <br /> job recommendations. Let AI help you land your dream job faster.</p>
+            <p className='relative z-10 text-text-secondary max-w-xl leading-relaxed'>
+                Transform your job search with intelligent resume analysis and personalized
+                job recommendations. Let AI help you land your dream job faster.
+            </p>
+
+            <div className='relative z-10 flex gap-3 items-center'>
+                <SecodaryButton text={"Upload Resume"}/>
+                <SecodaryButton text={"Explore Jobs →"}/>
             </div>
+
 
         </div>
     )

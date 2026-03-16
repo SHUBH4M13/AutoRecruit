@@ -1,61 +1,43 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
 @import "tailwindcss";
 
-/* Design Tokens */
 @theme {
 
-  /* Background colors */
-  --color-bgcolor: #0f172a;
-  --color-cardbg: #1e293b;
-  --color-elevatedcard: #111827;
-  --color-bordercolor: #334155;
+  --color-bg:           #181818;
+  --color-bg-secondary: #1A0820;
+  --color-bg-elevated:  #2A0F35;
+  --color-border:       rgba(232, 121, 249, 0.12);
 
-  /* Text colors */
-  --color-primarytext: oklch(96.7% 0.003 264.542);
-  --color-secondarytext: oklch(70.7% 0.022 261.325);
-  --color-mutedtext: oklch(55.1% 0.027 264.364);
+  --color-text-primary:   #FDF4FF;
+  --color-text-secondary: #7C3F8A;
+  --color-text-muted:     #3B1040;
+  --color-text-highlight: #F0ABFC;
 
-  /* Accent colors */
-  --color-primaryaccent: #6366f1;
-  --color-secondaryaccent: #8b5cf6;
+  --color-accent:      #E879F9;
+  --color-accent-deep: #86198F;
+  --color-accent-soft: #F0ABFC;
 
-  /* Fonts */
   --font-sans: "Inter", sans-serif;
-
 }
-
-/* Global styles */
 
 body {
   font-family: var(--font-sans);
-  /* background-color: var(--color-bgcolor);
-  color: var(--color-primarytext); */
+  background-color: #08040A;
+  color: #FDF4FF;
 }
-
-/* Optional reusable UI effects */
 
 .card {
-  background-color: var(--color-cardbg);
-  border: 1px solid var(--color-bordercolor);
+  background-color: #1A0820;
+  border: 1px solid rgba(232, 121, 249, 0.12);
   border-radius: 0.75rem;
 }
 
-.elevated-card {
-  background-color: var(--color-elevatedcard);
-  border: 1px solid var(--color-bordercolor);
-  border-radius: 0.75rem;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.35);
-}
-
-/* Gradient button */
 
 .gradient-btn {
-  background: linear-gradient(90deg,#6366f1,#8b5cf6);
-  color: white;
+  background: linear-gradient(135deg, #86198F, #C026D3);
+  color: #FDF4FF;
 }
 
-/* Subtle glow */
-
 .glow {
-  box-shadow: 0 0 25px rgba(99,102,241,0.4);
+  box-shadow: 0 0 28px rgba(232, 121, 249, 0.20);
 }
