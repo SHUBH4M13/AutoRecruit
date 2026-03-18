@@ -76,15 +76,14 @@ export default function Timeline() {
                     const isLast = i === stages.length - 1
 
                     return (
-                        <div key={stage.step} className='grid grid-cols-[1fr_80px_1fr] items-center min-h-32.5'>
+                        <div key={stage.step} className='grid grid-cols-[3fr_150px_3fr] items-center min-h-32.5'>
 
-                            {/* Left column */}
                             {!stage.flip ? (
                                 <div className='flex justify-end pr-6 mb-4'>
                                     <IconBox icon={Icon} />
                                 </div>
                             ) : (
-                                <div className='pr-6 text-right'>
+                                <div className='pr-4 text-right'>
                                     <span className='inline-block text-[10px] font-semibold uppercase tracking-[0.07em] text-accent-deep bg-accent-deep/12 border border-accent/12 rounded-full px-2.5 py-0.5 mb-2'>
                                         Step {stage.step}
                                     </span>
@@ -100,11 +99,11 @@ export default function Timeline() {
                                     <IconBox icon={Icon} />
                                 </div>
                             ) : (
-                                <div className='pl-6 text-left'>
+                                <div className='pl-6 text-left w-full '>
                                     <span className='inline-block text-[10px] font-semibold uppercase tracking-[0.07em] text-accent-deep bg-accent-deep/12 border border-accent/12 rounded-full px-2.5 py-0.5 mb-2'>
                                         Step {stage.step}
                                     </span>
-                                    <p className='text-2xl font-bold text-text-primary mb-4'>{stage.title}</p>
+                                    <p className='text-2xl font-bold text-text-primary mb-2'>{stage.title}</p>
                                     <p className='text-[14px] text-text-secondary leading-relaxed'>{stage.description}</p>
                                 </div>
                             )}

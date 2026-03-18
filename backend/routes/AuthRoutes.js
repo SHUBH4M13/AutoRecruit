@@ -1,9 +1,9 @@
 import express from "express"
+import HandleGoogleCallback from "../middleware/OAuth.js"
+import { handleSignup, handleLogin, HandleGoogleLogin } from "../controllers/Auth.js"
 import authenticateJWT from "../middleware/jwt.js"
 import { handleSendOTP , handleVerifyOTP} from "../controllers/Otp.js"
-import {handleSignup , handleLogin} from "../controllers/Auth.js"
-import HandleGoogleLogin from "../controllers/Auth.js"
-import HandleGoogleCallback from "../middleware/OAuth.js"
+
 
 const AuthRouter = express.Router()
 
@@ -12,3 +12,5 @@ AuthRouter
 .post("/login" , handleLogin )
 .get("/auth/google" , HandleGoogleLogin ) //it will start googlelogin
 .get("/auth/google/callback" , HandleGoogleCallback)
+
+export default AuthRouter

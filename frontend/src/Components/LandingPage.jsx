@@ -3,6 +3,7 @@ import PrimaryButton from "./PrimaryButton"
 import SecodaryButton from './SecodaryButton'
 
 export default function LandingPage() {
+
     return (
         <div className='relative overflow-hidden text-center flex flex-col justify-center items-center gap-7 min-h-screen bg-bg'>
 
@@ -32,11 +33,13 @@ export default function LandingPage() {
             </p>
 
             <div className='relative z-10 flex gap-3 items-center'>
-                <SecodaryButton text={"Upload Resume"}/>
+                <SecodaryButton 
+       
+                text={"Upload Resume"} />
                 <SecodaryButton text={"Explore Jobs →"}/>
             </div>
-
+ 
 
         </div>
     )
-}
+} 

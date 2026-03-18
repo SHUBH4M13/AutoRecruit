@@ -1,6 +1,7 @@
 import UserModel from "../models/UserModel.js";
 import bcrypt from "bcrypt";
 import Jwt from "jsonwebtoken";
+import passport from "passport";
 
 async function handleSignup(req, res) {
   const { fullName, email, password } = req.body;
@@ -13,7 +14,9 @@ async function handleSignup(req, res) {
       });
     }
 
-    const isExist = await UserModel.findOne({ email: email });
+    const normalEmail = email.toLowerCase();
+
+    const isExist = await UserModel.findOne({ email: normalEmail });
     if (isExist) {
       return res.status(400).json({
         success: false,
@@ -25,7 +28,7 @@ async function handleSignup(req, res) {
 
     await UserModel.create({
       fullName,
-      email,
+      email: normalEmail,
       password: hashedPassword,
     });
 
@@ -65,26 +68,25 @@ async function handleLogin(req, res) {
 
     const isPasswordValid = await bcrypt.compare(password, isExist.password);
 
-    if (isPasswordValid) {
-      const token = Jwt.sign(
-        { email: isExist.email, userId: isExist._id },
-        process.env.JWT_SECRET_KEY,
-        {
-          expiresIn: process.env.JWT_EXPIRES_IN,
-        }
-      );
-
-      return res.status(200).json({
-        success: true,
-        message: "Logged IN",
-        token,
-      });
-    } else {
+    if (!isPasswordValid) {
       return res.status(401).json({
         success: false,
         message: "Wrong password",
       });
     }
+
+    const token = Jwt.sign(
+      { userId: isExist._id },
+      process.env.JWT_SECRET_KEY,
+      { expiresIn: process.env.JWT_EXPIRES_IN }
+    );
+
+    return res.status(200).json({
+      success: true,
+      message: "Logged IN",
+      token,
+    });
+
   } catch (error) {
     console.error("Login Error:", error);
     return res.status(500).json({
@@ -94,8 +96,14 @@ async function handleLogin(req, res) {
   }
 }
 
+// Google Auth
 export const HandleGoogleLogin = passport.authenticate("google", {
   scope: ["profile", "email"],
+});
+
+export const googleCallback = passport.authenticate("google", {
+  failureRedirect: "/login",
+  session: false,
 });
 
 export { handleSignup, handleLogin };

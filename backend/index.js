@@ -1,8 +1,12 @@
 import express from "express"
 import http from "http"
 import dotenv from "dotenv"
+
 import UserRouter from "./routes/UserRoute.js"
+import AuthRouter from "./routes/AuthRoutes.js"
+
 import DatabaseConnect from "./DatabaseConnect.js"
+import cors from "cors"
 
 //import getEmbeddings from "./controllers/OpenAIEmbeddings.js"
 import ComputeCosineSimilarity from "./controllers/Score.js"
@@ -18,10 +22,13 @@ const server = http.createServer(app);
 app.use(express.json());
 app.use(express.urlencoded({extended: true}))
 
+app.use(cors());
 
 DatabaseConnect('mongodb://127.0.0.1:27017/AutoRecruit')
 
-app.use("/" , UserRouter );
+app.use("/" , UserRouter);
+app.use("/auth" , AuthRouter);
+
 
 const resumeTxt = `EDUCATION
 MIT ADT University Pune

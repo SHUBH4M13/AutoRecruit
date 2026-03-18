@@ -1,19 +1,31 @@
-import LandingPage from "../src/Components/LandingPage"
-import Navbar from "./Components/Navbar"
-import FeatureSection from "./Components/FeatureSection"
-import HowitWorksSection from "./Components/Timeline"
+import { createBrowserRouter, RouterProvider } from "react-router"
+
+import Home from "./Pages/Home"
+import Uploadww from "./Upload"
+import LoginPage from "./Pages/LoginPage"
+import SignupPage from "./Pages/SignupPage"
+
+const Router = createBrowserRouter([
+  {
+    path: "/",
+    element: <Home />
+  },
+  {
+    path: "/login",
+    element: <LoginPage/>
+  },
+  {
+    path: "/signup",
+    element: <SignupPage/>
+  },
+])
 
 function App() {
 
   return (
-    <div className="w-full min-h-screen">
-      <Navbar />
-      <LandingPage />
-      <FeatureSection />
-      <HowitWorksSection/>
-    </div>
-
+    <RouterProvider router={Router} />
   )
+
 }
 
 export default App
