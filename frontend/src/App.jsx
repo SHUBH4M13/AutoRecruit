@@ -1,9 +1,10 @@
 import { createBrowserRouter, RouterProvider } from "react-router"
 
 import Home from "./Pages/Home"
-import Uploadww from "./Upload"
+import Uploadww from "./Pages/UploadSection"
 import LoginPage from "./Pages/LoginPage"
 import SignupPage from "./Pages/SignupPage"
+import UploadSection from "./Pages/UploadSection"
 
 const Router = createBrowserRouter([
   {
@@ -18,6 +19,10 @@ const Router = createBrowserRouter([
     path: "/signup",
     element: <SignupPage/>
   },
+  {
+    path: "/upload",
+    element: <UploadSection/>
+  }
 ])
 
 function App() {

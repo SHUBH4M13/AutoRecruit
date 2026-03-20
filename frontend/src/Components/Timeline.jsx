@@ -34,7 +34,7 @@ const stages = [
 
 function TimelineNode({ step, isFirst, isLast }) {
     return (
-        <div className='flex flex-col items-center z-10'>
+        <div className='flex flex-col items-center z-10 overflow-hidden '>
             <div className={`w-px flex-1 bg-linear-to-b from-transparent to-accent/20 ${isFirst ? 'opacity-0' : ''}`} />
 
             <div className='relative flex items-center justify-center w-16 h-16 rounded-full bg-bg-secondary border border-accent/35 flex-shrink-0'>
@@ -63,9 +63,9 @@ export default function Timeline() {
                 <h2 className='text-6xl font-bold text-text-primary mb-5 '>
                     Your path to the <span className='text-accent'>dream job</span>
                 </h2>
-        </div>
+            </div>
 
-            <div className='relative flex flex-col max-w-2xl mx-auto'>
+            <div className='relative flex flex-col max-w-3xl mx-auto'>
 
 
                 <div className='absolute left-1/2 top-0 bottom-0 w-px -translate-x-1/2 bg-gradient-to-b from-transparent via-accent/25 to-transparent pointer-events-none' />
@@ -76,8 +76,7 @@ export default function Timeline() {
                     const isLast = i === stages.length - 1
 
                     return (
-                        <div key={stage.step} className='grid grid-cols-[3fr_150px_3fr] items-center min-h-32.5'>
-
+                        <div key={stage.step} className='grid grid-cols-[3fr_150px_3fr] items-center min-h-56'>
                             {!stage.flip ? (
                                 <div className='flex justify-end pr-6 mb-4'>
                                     <IconBox icon={Icon} />
