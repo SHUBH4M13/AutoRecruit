@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import axios from 'axios'
-import PrimaryButton from "../Components/PrimaryButton"
+import PrimaryButton from "../Components/Buttons/PrimaryButton"
 import { useNavigate } from 'react-router'
 
 export default function LoginPage() {

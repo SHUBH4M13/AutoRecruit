@@ -9,8 +9,7 @@ import Footer from '../Components/Footer'
 
 export default function Home() {
   return (
-    <div className=' overflow-hidden min-w-full '>
-        <div className=' overflow-hidden absolute top-[-80px] right-[-60px] w-[300px] h-[300px] rounded-full bg-accent-deep/10 blur-3xl pointer-events-none' />
+    <div className='w-full '>
         <Navbar/>
         <LandingPage/>
         <FeatureSection/>

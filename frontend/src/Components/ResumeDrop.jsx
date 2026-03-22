@@ -27,9 +27,9 @@ export default function ResumeDrop() {
 
 
     return (
-        <div className='bg-bg-secondary border border-border rounded-2xl p-6 flex flex-col gap-4'>
+        <div className='bg-bg border border-border rounded-2xl p-6 flex flex-col gap-4'>
             <div className='flex items-center gap-2.5'>
-                <div className='w-[34px] h-[34px] rounded-[9px] bg-accent-deep/18 border border-accent/18 flex items-center justify-center flex-shrink-0'>
+                <div className='w-[34px] h-[34px] rounded-[9px] bg-bg border border-accent/18 flex items-center justify-center flex-shrink-0'>
                     <FileText size={15} className='text-accent' />
                 </div>
                 <div>
@@ -59,7 +59,7 @@ export default function ResumeDrop() {
                     className='hidden'
                     onChange={(e) => handleFile(e.target.files[0])}
                 />
-                <div className='w-11 h-11 rounded-xl bg-accent-deep/15 border border-accent/18 flex items-center justify-center'>
+                <div className='w-11 h-11 rounded-xl bg-bg border border-accent/18 flex items-center justify-center'>
                     <Upload size={20} className='text-accent' />
                 </div>
                 <p className='text-[13px] font-medium text-accent-soft'>Drop your resume here</p>

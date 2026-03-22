@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import PrimaryButton from "../Components/PrimaryButton"
+import PrimaryButton from "../Components/Buttons/PrimaryButton"
 import axios from "axios"
 import { useNavigate } from 'react-router'
 
@@ -9,20 +9,29 @@ export default function SignupPage() {
 
     const handleSubmit = async (e) => {
         e.preventDefault()
-    
+
+        // if (form.password !== form.confirmPassword) {
+        //     console.error("Passwords do not match")
+        //     return
+        // }
+
         const url = import.meta.env.VITE_BACKEND_URL + '/auth/signup'
 
-        console.log(url)
-    
+        console.log(form)
+
         try {
             const res = await axios.post(url, {
-                fullName: form.name,   // FIX HERE
+                fullName: form.fullName,
                 email: form.email,
                 password: form.password
-              })
-            console.log(res.data)
+            })
+            
+            if(res.status === 201 ){
+                navigate("/login")
+            }
+
         } catch (err) {
-            console.error(err)
+            console.error(err.response?.data?.message || err.message)
         }
     }
 
@@ -35,6 +44,10 @@ export default function SignupPage() {
 
     const handleChange = (e) => {
         setForm({ ...form, [e.target.name]: e.target.value })
+    }
+
+    const handleGoogleSignup = async => {
+
     }
 
     return (
@@ -57,12 +70,11 @@ export default function SignupPage() {
 
                     <input
                         type="text"
-                        name="name"
+                        name="fullName"
                         placeholder="Full Name"
-                        value={form.name}
+                        value={form.fullName}
                         onChange={handleChange}
-                        className='px-4 py-3 rounded-lg bg-bg border border-border text-text-primary focus:outline-none focus:ring-1  hover:border-accent-deep  focus:ring-border'
-                        required
+                        className='px-4 py-3 rounded-lg hover:border-accent-deep bg-bg border border-border text-text-primary focus:outline-none focus:ring-1 focus:ring-border'
                     />
 
                     <input
@@ -121,11 +133,11 @@ export default function SignupPage() {
                 {/* Login Redirect */}
                 <p className='text-center text-sm text-text-secondary'>
                     Already have an account?{" "}
-                    <span 
-                    onClick={ () => {
-                        navigate("/login")
-                    } }
-                    className='cursor-pointer hover:underline text-text-primary'>
+                    <span
+                        onClick={() => {
+                            navigate("/login")
+                        }}
+                        className='cursor-pointer hover:underline text-text-primary'>
                         Login
                     </span>
                 </p>

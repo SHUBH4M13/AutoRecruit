@@ -26,8 +26,8 @@ app.use(cors());
 
 DatabaseConnect('mongodb://127.0.0.1:27017/AutoRecruit')
 
-app.use("/" , UserRouter);
 app.use("/auth" , AuthRouter);
+app.use("/" , UserRouter);
 
 
 const resumeTxt = `EDUCATION
