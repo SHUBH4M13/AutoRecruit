@@ -1,32 +1,28 @@
 import React from 'react'
-import { useState } from 'react'
-import { LayoutGrid,Clipboard} from 'lucide-react'
+import { LayoutGrid, Clipboard } from 'lucide-react'
 
-export default function JdBox() {
-
-    const [jd, setJd] = useState('')
-    const isReady = jd.length > 30
+export default function JdBox({setJd , jd}) {
 
     const handlePaste = async () => {
         try {
             const text = await navigator.clipboard.readText()
             setJd(text.slice(0, 5000))
         } catch {
-            // fallback — user can paste manually
+            alert("Clipboard access denied. Paste manually.");
         }
     }
 
     return (
-        <div className='bg-bg-secondary border border-border rounded-2xl p-6 flex flex-col gap-4'>
-            <div className='flex items-center gap-2.5'>
-                <div className='w-8.5 h-8.5 rounded-[9px] bg-accent-deep/18 border border-accent/18 flex items-center justify-center shrink-0'>
-                    <LayoutGrid size={15} className='text-accent' />
-                </div>
-                <div>
-                    <p className='text-[14px] font-semibold text-text-primary'>Job Description</p>
-                    <p className='text-[11px] text-text-secondary'>Paste the full JD for best results</p>
-                </div>
+        <div className='bg-bg border border-border rounded-2xl p-6 flex flex-col gap-4 h-full'>            
+        <div className='flex items-center gap-2.5'>
+            <div className='w-8.5 h-8.5 rounded-[9px] bg-accent-deep/18 border border-accent/18 flex items-center justify-center shrink-0'>
+                <LayoutGrid size={15} className='text-accent' />
             </div>
+            <div>
+                <p className='text-[14px] font-semibold text-text-primary'>Job Description</p>
+                <p className='text-[11px] text-text-secondary'>Paste the full JD for best results</p>
+            </div>
+        </div>
 
             <textarea
                 value={jd}
@@ -34,8 +30,8 @@ export default function JdBox() {
                 placeholder={'Paste the job description here...\n\ne.g. We are looking for a Senior Frontend Engineer with 4+ years of React experience...'}
                 className='
                             w-full flex-1 bg-accent-deep/5 border border-border rounded-xl
-                            text-text-primary text-[13px] placeholder:text-text-muted
-                            p-3.5 resize-none h-42 leading-relaxed outline-none
+                            text-text-primary text-[13px] placeholder:text-accent
+                            p-3.5 resize-none h-56 leading-relaxed outline-none
                             focus:border-accent/40 focus:bg-accent-deep/8 transition-all duration-200
                         '
             />
@@ -48,7 +44,7 @@ export default function JdBox() {
                     <Clipboard size={12} />
                     Paste from clipboard
                 </button>
-                <span className={`text-[11px] ${jd.length > 0 ? 'text-text-secondary' : 'text-text-muted'}`}>
+                <span className={`text-[11px] texttext-accent`}>
                     {jd.length} / 5000
                 </span>
             </div>

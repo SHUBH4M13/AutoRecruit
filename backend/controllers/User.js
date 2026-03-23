@@ -1,7 +1,6 @@
 import UserModel from "../models/UserModel.js";
 import bcrypt from "bcrypt";
 import axios from "axios";
-import pdf from "pdf-parse";
 import dotenv from "dotenv"
 import client from "../Config/GenAi.js";
 
@@ -93,37 +92,10 @@ async function handleChangePassword(req, res) {
   }
 }
 
-async function handleGetUserResume(req, res) {
-  const userId = req.user.userId;
-
-  try {
-    const user = await UserModel.findById({ userId });
-
-    const ResumeLink = user.ResumeLink;
-
-    //get user resume
-    const response = await axios.get(ResumeLink, {
-      responseType: "arraybuffer",
-    });
-
-    const pdfBuffer = Buffer.from(response.data, "binary");
-    //converting
-    const data = await pdf(pdfBuffer);
-
-    return data;
-  } catch (error) {
-    console.error("Failed to Get Suggestion:", error);
-    return res.status(500).json({
-      success: false,
-      message: "Something went wrong",
-    });
-  }
-}
-
 async function handleGetAISuggestion(req, res) {
   try {
-    const JDText = req.body;
-    const ResumeText = await handleGetUserResume();
+    const JDText = req.body.jdText;
+    const ResumeText = req.resumetext
 
     const prompt = `You are an AI system that improves a user's resume so that it matches a given Job Description (JD) more closely. 
     Your goal is to help the user increase the semantic similarity / cosine similarity score between their resume and the JD.
@@ -154,6 +126,7 @@ async function handleGetAISuggestion(req, res) {
     ]
     
     Now use this exact format and generate suggestions.
+    - Only give 3-4 suggestions and give it in sturcutred format array 
     
     Resume:
     ${ResumeText}
@@ -161,11 +134,10 @@ async function handleGetAISuggestion(req, res) {
     Job Description:
     ${JDText}`
 
-    const response = client.chat.completions.create({
+    const response = await client.chat.completions.create({
       model: "llama-3.1-8b-instant",
       temperature: 0.2,
       max_completion_tokens: 500,
-      verbosity: "low",
       messages: [
         {
           role: "system",
@@ -174,11 +146,16 @@ async function handleGetAISuggestion(req, res) {
       ],
     });
 
-    console.log(response);
+    console.log(response.choices[0].message.content);
+
+    const data = response.choices[0].message.content
+    const consinescore = req.score
 
     return res.status(200).json({
-      response,
+      data:data,
+      score: consinescore
     });
+    
   } catch (error) {
     console.error("Failed to get Ai Suggestion:", error);
     return res.status(500).json({
@@ -218,4 +195,33 @@ async function handlen8ncall(req,res){
   }
 }
 
-export { handleGetUserResume, handleChangePassword , handleGetAISuggestion , handlen8ncall};
+async function handleGetUserInfo(req,res){
+
+    const userID = req.user.userId
+
+    try {
+
+      const user = UserModel.findById(userID);
+
+    if( !user ){
+        return res.status(404).json({
+          success: false,
+          message: "User Not Found"
+        })
+    }
+
+    return res.status(200).json({
+      success: true,
+      user
+    })
+      
+    } catch (error) {
+      return res.status(500).json({
+        success: false,
+        message: "Server Error"
+      })
+    }
+
+}
+
+export {handleChangePassword , handleGetAISuggestion , handlen8ncall , handleGetUserInfo};

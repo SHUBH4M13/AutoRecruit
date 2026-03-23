@@ -1,30 +1,46 @@
-import { useState, useRef, useCallback } from 'react'
-import { FileText, Upload , X} from 'lucide-react'
+import { useState, useRef, useCallback , useEffect } from 'react'
+import { FileText, Upload, X } from 'lucide-react'
 
-export default function ResumeDrop() {
+export default function ResumeDrop({ setFile, file }) {
 
-    const [file, setFile] = useState(null)
     const [dragging, setDragging] = useState(false)
+    const [pdfUrl, setPdfUrl] = useState(null)
     const fileInputRef = useRef(null)
 
-    const isReady = file > 30
-
     const formatSize = (bytes) => {
-        if (bytes < 1024) return bytes + ' B'
-        if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB'
+        if (file.size > 5 * 1024 * 1024) {
+            alert("File too large");
+            return;
+        }
         return (bytes / (1024 * 1024)).toFixed(1) + ' MB'
     }
 
     const handleFile = (f) => {
-        if (f && f.type === 'application/pdf') setFile(f)
+        if (f && f.type === 'application/pdf') {
+            setFile(f)
+            const url = URL.createObjectURL(f)
+            setPdfUrl(url)
+        }
+    }
+
+    const handleRemove = () => {
+        if (pdfUrl) URL.revokeObjectURL(pdfUrl)
+        setFile(null)
+        setPdfUrl(null)
+        if (fileInputRef.current) fileInputRef.current.value = ''
     }
 
     const onDrop = useCallback((e) => {
-        e.preventDefault()
-        setDragging(false)
-        handleFile(e.dataTransfer.files[0])
-    }, [])
+        e.preventDefault();
+        setDragging(false);
+        handleFile(e.dataTransfer.files[0]);
+      }, [handleFile]);
 
+    useEffect(() => {
+        return () => {
+          if (pdfUrl) URL.revokeObjectURL(pdfUrl);
+        };
+      }, [pdfUrl]);
 
     return (
         <div className='bg-bg border border-border rounded-2xl p-6 flex flex-col gap-4'>
@@ -79,12 +95,20 @@ export default function ResumeDrop() {
                         <p className='text-[11px] text-text-secondary'>{formatSize(file.size)}</p>
                     </div>
                     <button
-                        onClick={() => setFile(null)}
+                        onClick={(e) => { e.stopPropagation(); handleRemove() }}
                         className='text-text-secondary hover:text-red-400 transition-colors p-0.5'
                     >
                         <X size={14} />
                     </button>
                 </div>
+            )}
+
+            {pdfUrl && (
+                <iframe
+                    src={pdfUrl}
+                    className='w-full h-[500px] border border-accent/20 rounded-xl'
+                    title='Resume Preview'
+                />
             )}
         </div>
     )

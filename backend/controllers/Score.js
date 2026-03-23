@@ -1,17 +1,20 @@
 import getEmbeddings from "../Config/embedding.js";
 import cosineSimilarity from "compute-cosine-similarity";
 
-async function ComputeCosineSimilarity(ResumeText , JdText){
+async function ComputeCosineSimilarity(req,res, next){
+
+
+    const ResumeText = req.resumetext
+    const JdText = req.body.jdText;
 
     const ResumeVec = await getEmbeddings(ResumeText);
     const JdVec = await getEmbeddings(JdText);
 
-    // console.log(ResumeVec)
-    // console.log(JdVec)
-
     const score = cosineSimilarity(ResumeVec , JdVec);
 
-    return score;
+    req.score = score
+
+    next();
 
 }
 

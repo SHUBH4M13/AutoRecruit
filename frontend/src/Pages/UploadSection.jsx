@@ -1,15 +1,42 @@
 import { useState } from 'react'
-import { Zap, Lock} from 'lucide-react'
+import { Zap, Lock } from 'lucide-react'
 import ResumeDrop from "../Components/ResumeDrop"
 import JdBox from '../Components/JdBox'
+import axios from 'axios'
 
 export default function UploadSection() {
+
+    const [file, setFile] = useState(null)
     const [jd, setJd] = useState('')
-    const isReady = jd.length > 30
+    const [loading, setLoading] = useState(false);
+
+    const isReady = file !== null && jd.length > 30
 
     const handleAnalyse = () => {
-        // wire to your API here
         console.log('Analysing:', { file, jd })
+    }
+
+    const handleFileUpload = async () => {
+
+        try {
+            console.log('clicked')
+        
+            const url = import.meta.env.VITE_BACKEND_URL + '/score/getscore'
+        
+            const formData = new FormData()
+            formData.append("file", file)          // PDF
+            formData.append("jdText", jd) 
+        
+            const res = await axios.post(url, formData)
+        
+            console.log(res.data)
+        
+        } catch (error) {
+            console.log("STATUS:", error.response?.status)
+            console.log("DATA:", error.response?.data)
+            console.log("ERROR:", error.message)
+        }
+
     }
 
     return (
@@ -24,16 +51,16 @@ export default function UploadSection() {
                 </p>
             </div>
 
-            <div className='relative z-10 grid grid-cols-1 md:grid-cols-2 gap-5 max-w-4xl mx-auto mb-6'>
+            <div className='relative z-10 grid grid-cols-1 md:grid-cols-2 gap-5 max-w-4xl mx-auto mb-6 items-stretch'>
 
-                <div>
-                    <ResumeDrop/>
+                <div className='h-full'>
+                    <ResumeDrop setFile={setFile} file={file} />
                 </div>
 
-                <div>
-                    <JdBox/>
+                <div className='h-full'>
+                    <JdBox setJd={setJd} jd={jd} />
                 </div>
-                
+
             </div>
 
             <div className='relative z-10 max-w-4xl mx-auto flex items-center justify-between'>
@@ -42,7 +69,7 @@ export default function UploadSection() {
                     Your data is never stored or shared
                 </div>
                 <button
-                    onClick={handleAnalyse}
+                    onClick={handleFileUpload}
                     // disabled={!isReady}
                     className='
                         inline-flex items-center gap-2 bg-accent-deep text-text-primary
