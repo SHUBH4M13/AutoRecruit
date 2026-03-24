@@ -110,18 +110,15 @@ async function handleGetAISuggestion(req, res) {
     - DO NOT rewrite the whole resume. Only give targeted suggestions.
     - Keep suggestions realistic and relevant (do NOT lie or add false experience).
     
-    Your response MUST be in the following JSON-like structure (arrays of objects):
+    Your response MUST be STRICT VALID JSON.
+    Do NOT include any explanation, text, or markdown.
+    Return ONLY a JSON array.
     
-    Example Output Format:
-    
+    Example:
     [
       {
-        "resumeText": "No mention of React Hooks",
-        "improvement": "JD emphasizes React Hooks. Add a point under your experience showing use of useState, useEffect, or custom hooks."
-      },
-      {
-        "resumeText": "Backend responsibilities missing",
-        "improvement": "JD mentions REST API development. Add a bullet like: 'Built and integrated REST APIs using Node.js and Express.'"
+        "resumeText": "...",
+        "improvement": "..."
       }
     ]
     
@@ -144,17 +141,31 @@ async function handleGetAISuggestion(req, res) {
           content: prompt,
         },
       ],
-    });
+    })
+    
+    let raw = response.choices[0].message.content
+    
+    raw = raw.replace(/```json/g, "").replace(/```/g, "").trim()
+    
+    let suggestions
 
-    console.log(response.choices[0].message.content);
-
-    const data = response.choices[0].message.content
     const consinescore = req.score
-
-    return res.status(200).json({
-      data:data,
+    
+    try {
+      suggestions = JSON.parse(raw)
+    } catch (err) {
+      console.error("Parse failed:", raw)
+    
+      return res.status(500).json({
+        message: "Invalid AI output",
+        raw
+      })
+    }
+    
+    return res.json({
+      suggestions,
       score: consinescore
-    });
+    })
     
   } catch (error) {
     console.error("Failed to get Ai Suggestion:", error);

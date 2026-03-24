@@ -10,9 +10,11 @@ async function ComputeCosineSimilarity(req,res, next){
     const ResumeVec = await getEmbeddings(ResumeText);
     const JdVec = await getEmbeddings(JdText);
 
-    const score = cosineSimilarity(ResumeVec , JdVec);
+    let score = cosineSimilarity(ResumeVec , JdVec);
 
+    score = score * 100
     req.score = score
+    console.log(score)
 
     next();
 

@@ -1,14 +1,20 @@
 import { useState } from 'react'
 import { Zap, Lock } from 'lucide-react'
+import axios from 'axios'
+
+import AISuggestions from '../Components/AISuggestions'
+import ScoreCard from "../Components/ScoreCard"
 import ResumeDrop from "../Components/ResumeDrop"
 import JdBox from '../Components/JdBox'
-import axios from 'axios'
+
 
 export default function UploadSection() {
 
     const [file, setFile] = useState(null)
     const [jd, setJd] = useState('')
     const [loading, setLoading] = useState(false);
+    const [suggestion, setsuggestion] = useState('')
+    const [score, setscore] = useState(null)
 
     const isReady = file !== null && jd.length > 30
 
@@ -20,17 +26,25 @@ export default function UploadSection() {
 
         try {
             console.log('clicked')
-        
+
             const url = import.meta.env.VITE_BACKEND_URL + '/score/getscore'
-        
+
             const formData = new FormData()
             formData.append("file", file)          // PDF
-            formData.append("jdText", jd) 
-        
+            formData.append("jdText", jd)
+
             const res = await axios.post(url, formData)
-        
+
+            const formattedSuggestions = res.data.suggestions.map((item, i) => ({
+                title: item.resumeText,
+                body: item.improvement
+            }))
+
+            setsuggestion(formattedSuggestions)
+            setscore(res.data.score)
+
             console.log(res.data)
-        
+
         } catch (error) {
             console.log("STATUS:", error.response?.status)
             console.log("DATA:", error.response?.data)
@@ -82,6 +96,18 @@ export default function UploadSection() {
                     <Zap size={15} />
                     Analyse Resume
                 </button>
+            </div>
+
+            <div className=' flex justify-center items-center'>
+
+                <div>
+                    <ScoreCard score={score} />
+                </div>
+
+                <div>
+                    <AISuggestions suggestions={suggestion} />
+                </div>
+
             </div>
 
         </section>
