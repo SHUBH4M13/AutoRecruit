@@ -1,10 +1,11 @@
 import { createBrowserRouter, RouterProvider } from "react-router"
 
 import Home from "./Pages/Home"
-import Uploadww from "./Pages/UploadSection"
 import LoginPage from "./Pages/LoginPage"
 import SignupPage from "./Pages/SignupPage"
-import UploadSection from "./Pages/UploadSection"
+import UploadPage from "./Pages/UploadPage"
+import Jobs from "./Pages/JobSearchPage"
+import ProfilePage from "./Pages/ProfilePage"
 
 const Router = createBrowserRouter([
   {
@@ -21,7 +22,15 @@ const Router = createBrowserRouter([
   },
   {
     path: "/upload",
-    element: <UploadSection/>
+    element: <UploadPage/>
+  },
+  {
+    path: "/jobs",
+    element: <Jobs/>
+  },
+  {
+    path: "/profile",
+    element: <ProfilePage/>
   }
 ])
 

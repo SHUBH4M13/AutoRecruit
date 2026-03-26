@@ -149,7 +149,9 @@ async function handleGetAISuggestion(req, res) {
     
     let suggestions
 
-    const consinescore = req.score
+    let consinescore = req.score
+
+    consinescore = consinescore.toFixed(2)
     
     try {
       suggestions = JSON.parse(raw)
@@ -178,7 +180,7 @@ async function handleGetAISuggestion(req, res) {
 
 async function handlen8ncall(req,res){
 
-  const { keyword , location , experienceLevel , remote } = req.body;
+  const { keyword , location , experienceLevel , remote } = req.query;
 
   try {
 
@@ -194,7 +196,7 @@ async function handlen8ncall(req,res){
     return res.status(200).json({
       success: true,
       message: "Apply links:",
-      response
+      data: response.data
     })
     
   } catch (error) {

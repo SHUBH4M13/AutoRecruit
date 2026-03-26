@@ -3,7 +3,7 @@ import { Sparkles } from 'lucide-react'
 export default function AISuggestions({ suggestions = [] }) {
 
     return (
-        <div className='bg-bg border border-border rounded-2xl p-6 flex flex-col gap-4'>
+        <div className='bg-bg border max-w-96 border-border rounded-2xl p-6 flex flex-col gap-4'>
 
             <div className='flex items-center gap-2.5'>
                 <div className='w-[34px] h-[34px] rounded-[9px] bg-accent-deep/18 border border-accent/18 flex items-center justify-center shrink-0'>

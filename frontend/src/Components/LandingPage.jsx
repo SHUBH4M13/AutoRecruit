@@ -38,7 +38,9 @@ export default function LandingPage() {
                 <SecodaryButton 
                 onclick={() => { navigate("/upload") }}
                 text={"Upload Resume"} />
-                <SecodaryButton text={"Explore Jobs →"}/>
+                <SecodaryButton 
+                onclick={() => { navigate("/jobs") }}
+                text={"Explore Jobs →"}/>
             </div>
  
 

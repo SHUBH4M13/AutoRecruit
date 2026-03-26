@@ -2,31 +2,29 @@ import { useState } from 'react'
 import { Zap, Lock } from 'lucide-react'
 import axios from 'axios'
 
-import AISuggestions from '../Components/AISuggestions'
-import ScoreCard from "../Components/ScoreCard"
-import ResumeDrop from "../Components/ResumeDrop"
-import JdBox from '../Components/JdBox'
-
+import AISuggestions from './AISuggestions'
+import ScoreCard from "./ScoreCard"
+import ResumeDrop from "./ResumeDrop"
+import JdBox from './JdBox'
+import LoadingScreen from '../Pages/LoadingScreen'
 
 export default function UploadSection() {
 
     const [file, setFile] = useState(null)
+    const [hasAnalyzed, setHasAnalyzed] = useState(false)
     const [jd, setJd] = useState('')
     const [loading, setLoading] = useState(false);
-    const [suggestion, setsuggestion] = useState('')
+    const [suggestion, setsuggestion] = useState([])
     const [score, setscore] = useState(null)
 
     const isReady = file !== null && jd.length > 30
 
-    const handleAnalyse = () => {
-        console.log('Analysing:', { file, jd })
-    }
-
     const handleFileUpload = async () => {
 
         try {
-            console.log('clicked')
 
+            setLoading(true);
+            setHasAnalyzed(true)
             const url = import.meta.env.VITE_BACKEND_URL + '/score/getscore'
 
             const formData = new FormData()
@@ -43,12 +41,13 @@ export default function UploadSection() {
             setsuggestion(formattedSuggestions)
             setscore(res.data.score)
 
-            console.log(res.data)
+            setLoading(false);
 
         } catch (error) {
             console.log("STATUS:", error.response?.status)
             console.log("DATA:", error.response?.data)
             console.log("ERROR:", error.message)
+            setLoading(false);
         }
 
     }
@@ -77,11 +76,7 @@ export default function UploadSection() {
 
             </div>
 
-            <div className='relative z-10 max-w-4xl mx-auto flex items-center justify-between'>
-                <div className='flex items-center gap-1.5 text-[12px] text-text-muted'>
-                    <Lock size={12} className='text-text-secondary' />
-                    Your data is never stored or shared
-                </div>
+            <div className='relative z-10 max-w-4xl mx-auto flex items-center justify-center'>
                 <button
                     onClick={handleFileUpload}
                     // disabled={!isReady}
@@ -98,17 +93,23 @@ export default function UploadSection() {
                 </button>
             </div>
 
-            <div className=' flex justify-center items-center'>
+            {loading && <LoadingScreen visible={loading} />}
 
-                <div>
-                    <ScoreCard score={score} />
+            {!loading && hasAnalyzed && (
+                <div className="flex justify-center gap-18 items-center mt-18">
+
+                    <div>
+                        <ScoreCard score={score} />
+                    </div>
+
+                    <div>
+                        <AISuggestions suggestions={suggestion} />
+                    </div>
+
                 </div>
+            )}
 
-                <div>
-                    <AISuggestions suggestions={suggestion} />
-                </div>
 
-            </div>
 
         </section>
     )
